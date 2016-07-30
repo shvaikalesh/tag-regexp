@@ -3,12 +3,15 @@
 const escape = string =>
     string.replace(/[|{}[\]()?+*.\\$^]/g, "\\$&")
 
+const isRegExp = value =>
+    toString.call(value) == "[object RegExp]"
+
 const string = value =>
 {
     if (typeof value == "string")
         return escape(value)
 
-    return value instanceof RegExp
+    return isRegExp(value)
         ? value.source
         : Array.from(value, string).join("|")
 }
