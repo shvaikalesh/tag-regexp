@@ -1,9 +1,12 @@
 "use strict"
 
+const escape = string =>
+    string.replace(/[|{}[\]()?+*.\\$^]/g, "\\$&")
+
 const string = value =>
 {
     if (typeof value == "string")
-        return value
+        return escape(value)
 
     return value instanceof RegExp
         ? value.source
