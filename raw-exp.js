@@ -6,14 +6,21 @@ const escape = string =>
 const isRegExp = value =>
     toString.call(value) == "[object RegExp]"
 
+const isIterable = value =>
+    value != null && typeof value[Symbol.iterator] == "function"
+
 const string = value =>
 {
     if (typeof value == "string")
         return escape(value)
 
-    return isRegExp(value)
-        ? value.source
-        : Array.from(value, string).join("|")
+    if (isRegExp(value))
+        return value.source
+
+    if (isIterable(value))
+        return Array.from(value, string).join("|")
+
+    return value
 }
 
 const tag = flags => (template, ...values) =>
