@@ -3,24 +3,24 @@
 const escape = string =>
     string.replace(/[|{}[\]()?+*.\\$^]/g, "\\$&")
 
-const isRegExp = value =>
-    toString.call(value) == "[object RegExp]"
+const type = value =>
+    toString.call(value).slice(8, -1)
 
 const isIterable = value =>
     value != null && typeof value[Symbol.iterator] == "function"
 
 const string = value =>
 {
-    if (typeof value == "string")
-        return escape(value)
+    switch (type(value))
+    {
+        case "String": break
+        case "RegExp": return value.source
 
-    if (isRegExp(value))
-        return value.source
+        default: if (isIterable(value))
+            return Array.from(value, string).join("|")
+    }
 
-    if (isIterable(value))
-        return Array.from(value, string).join("|")
-
-    return value
+    return escape(`${value}`)
 }
 
 const tag = flags => (template, ...values) =>
