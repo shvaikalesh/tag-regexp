@@ -7,7 +7,7 @@ const type = value =>
     toString.call(value).slice(8, -1)
 
 const isIterable = value =>
-    value != null && typeof value[Symbol.iterator] == "function"
+    typeof value[Symbol.iterator] == "function"
 
 const supports = flags =>
 {
@@ -25,6 +25,8 @@ const supports = flags =>
 
 const string = value =>
 {
+    if (value == null) return ""
+
     switch (type(value))
     {
         case "String": break
