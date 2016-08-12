@@ -9,6 +9,20 @@ const type = value =>
 const isIterable = value =>
     value != null && typeof value[Symbol.iterator] == "function"
 
+const supports = flags =>
+{
+    try
+    {
+        new RegExp("", flags)
+    }
+    catch (error)
+    {
+        return false
+    }
+
+    return true
+}
+
 const string = value =>
 {
     switch (type(value))
@@ -34,10 +48,10 @@ const tag = flags => (template, ...values) =>
 
 module.exports = new Proxy(tag(),
 {
-    get(r, key)
+    get(_, key)
     {
-        return typeof key == "symbol" || key in r
-            ? Reflect.get(...arguments)
-            : tag(key)
+        return typeof key == "string" && supports(key)
+            ? tag(key)
+            : Reflect.get(...arguments)
     },
 })
