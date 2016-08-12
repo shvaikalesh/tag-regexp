@@ -37,16 +37,31 @@ const string = value =>
     return escape(`${value}`)
 }
 
-const tag = flags => (template, ...values) =>
+const tag = flags =>
 {
-    let pattern = String.raw(template,
-        ...values.map(string)
-    )
+    let remove = ""
 
-    return new RegExp(pattern, flags)
+    if (flags.includes("x"))
+    {
+        if (!supports("x"))
+            flags =
+            flags.replace("x", "")
+
+        remove = /\s+|#.*$/gm
+    }
+
+    return (template, ...values) =>
+    {
+        let pattern = String.raw(template,
+            ...values.map(string)
+        )
+        .replace(remove, "")
+
+        return new RegExp(pattern, flags)
+    }
 }
 
-module.exports = new Proxy(tag(),
+module.exports = new Proxy(tag(""),
 {
     get(_, key)
     {
