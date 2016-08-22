@@ -65,10 +65,10 @@ const tag = flags =>
 
 module.exports = new Proxy(tag(""),
 {
-    get(_, key)
+    get(r, key)
     {
-        return typeof key == "string" && supports(key)
-            ? tag(key)
+        return !r.hasOwnProperty(key) && supports(key)
+            ? r[key] = tag(key)
             : Reflect.get(...arguments)
     },
 })
