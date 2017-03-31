@@ -1,0 +1,28 @@
+{
+    "name": "tag-regexp",
+    "version": "1.0.0",
+    "description": "new RegExp(String.raw) wrapper with benefits",
+    "keywords":
+    [
+        "regexp",
+        "pattern",
+        "regular",
+        "expression",
+        "template",
+        "string",
+        "tagged",
+        "literal"
+    ],
+    "bugs":
+    {
+        "url": "https://github.com/shvaikalesh/tag-regexp/issues",
+        "email": "shvaikalesh@gmail.com"
+    },
+    "license": "MIT",
+    "author": "Aleksey Shvayka <shvaikalesh@gmail.com>",
+    "repository": "shvaikalesh/tag-regexp",
+    "dependencies":
+    {
+        "mem": "shvaikalesh/mem"
+    }
+}
